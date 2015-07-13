@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Add My Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    var i = 1;
+    $(document).ready(function () {
+        $('.input-group.date').datepicker({
+            "todayHighlight": true, format: "dd/mm/yyyy"
+            
+        }).on("changeDate", function (e) {
+            alert((new Date(e.date).getDate()) + "/" + (new Date(e.date).getMonth()+1) + "/" + (new Date(e.date).getFullYear()));
+        });
+         $('#dvRating').raty({ readOnly: true, score: 3 });
+    })
+    
+</script>
+<hr />
+<div><div class="input-group date" style="width:25%"><input type="text" class="form-control"  id="txtDate"><span class="input-group-addon" style=""><i class="glyphicon glyphicon-th"></i></span></div><hr />
+    <table class="form-group" id="tblAddTasks">
+        <tr><th>Task Description</th><th>Time</th><th>Feedback By Manager</th><th>Rating</th><th>Actions</th></tr>
+        <tr><td style="width:35%;">@Html.TextBox("txtTaskDescription", "", new { @class = "form-control" })</td><td style="width:8%">@Html.TextBox("txtTime", "", new { @class = "form-control" })</td><td style="width:35%">@Html.TextBox("txtFeedback", "",new { @class = "form-control" })</td>
+       <td style="width:12%"><div id="dvRating" class="cssRating"></div></td>
+         <td width="width:10%;">
+            <a href="javascript:void(0)" onclick="fn_AddNewRowWithClone(this)" class="lnkActions"><i class="glyphicon glyphicon-plus"></i></a>
+@*<a href="javascript:void(0)" class="lnkActions" ><i class="glyphicon glyphicon-trash"></i></a>*@</td></tr>
+    </table>
+
+</div>

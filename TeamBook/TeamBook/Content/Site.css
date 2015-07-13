@@ -20,5 +20,16 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
+}
+.tbl-task{
+    
+
+}
+.tbl-task th{
+/*    width:30%;*/
+}
+.lnkActions{
+    color:inherit;
+
 }
