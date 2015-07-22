@@ -39,7 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsBALCommon.cs" />
+    <Compile Include="clsBALTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TeamBook.BO\TeamBook.BO.csproj">
+      <Project>{bc8aa8af-ed6d-424d-af08-1a5b7adb07c5}</Project>
+      <Name>TeamBook.BO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TeamBook.DAL\TeamBook.DAL.csproj">
+      <Project>{26f876e2-6952-4989-ba21-dd70f65be84d}</Project>
+      <Name>TeamBook.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

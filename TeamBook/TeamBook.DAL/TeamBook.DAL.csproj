@@ -60,7 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsDALEmployee.cs" />
+    <Compile Include="clsDALTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TeamBook.BO\TeamBook.BO.csproj">
+      <Project>{bc8aa8af-ed6d-424d-af08-1a5b7adb07c5}</Project>
+      <Name>TeamBook.BO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

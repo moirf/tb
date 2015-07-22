@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Add My Task";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,23 +7,60 @@
     $(document).ready(function () {
         $('.input-group.date').datepicker({
             "todayHighlight": true, format: "dd/mm/yyyy"
-            
+
         }).on("changeDate", function (e) {
-            alert((new Date(e.date).getDate()) + "/" + (new Date(e.date).getMonth()+1) + "/" + (new Date(e.date).getFullYear()));
+            alert((new Date(e.date).getDate()) + "/" + (new Date(e.date).getMonth() + 1) + "/" + (new Date(e.date).getFullYear()));
         });
-         $('#dvRating').raty({ readOnly: true, score: 3 });
+        $('.cssRating').raty({ readOnly: true, score: 0 });
+      
+    });
+
+</script>
+<hr />
+<div>
+    <div class="input-group date" style="width:25%"><input type="text" class="form-control" id="txtDate"><span class="input-group-addon" style=""><i class="glyphicon glyphicon-th"></i></span></div><hr />
+    <table class="form-group table-hover table" id="tblAddTasks">
+        <thead>
+            <tr class="active"><th>Task Description</th><th>Time</th><th>Feedback By Manager</th><th>Rating</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="tbodyAddTasks">
+            <tr>
+                
+                <td style="width:35%;">@Html.Hidden("hdnTaskId", new { @FieldName="TaskId" }) 
+                @Html.TextBox("txtTaskDescription", "", new { @FieldName = "Description", @class = "form-control" })</td>
+                <td style="width:8%">@Html.TextBox("txtTime", "", new { @FieldName = "TimeTaken", @class = "form-control" })</td>
+                <td style="width:35%">@Html.TextBox("txtFeedback", "", new { @disabled = "disabled", @class = "form-control" })</td>
+                <td style="width:12%"><div id="dvRating" class="cssRating hidden"></div></td>
+                <td width="width:10%;">
+                    <a href="javascript:void(0)" onclick="fn_AddNewRowWithClone(this)" class="lnkActions"><i class="glyphicon glyphicon-plus"></i></a>
+                    @*<a href="javascript:void(0)" class="lnkActions" ><i class="glyphicon glyphicon-trash"></i></a>*@
+                </td>
+            </tr>
+        </tbody>
+      
+    </table>
+    <span>
+        <a class="btn btn-primary" href="javascript:void(0)" id="btnSave">Save</a>
+        <a class="btn btn-primary" href="javascript:void(0)" id="btnSubmit">Submit</a>
+    </span>
+</div>
+<script type="text/javascript">
+    $("#btnSave").click(function () {
+        var retData = fn_GetGridData('tbodyAddTasks');
+       alert(retData.Datareturn);
+        $.ajax({
+            type: "POST",
+            url: "/Task/AddMyTask",
+            data: { "TasksList": JSON.stringify(retData.Datareturn) },
+            async: true,
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+            },
+            error: function (data, status, e) {
+                //alert(e);
+            }
+        });
     })
     
 </script>
-<hr />
-<div><div class="input-group date" style="width:25%"><input type="text" class="form-control"  id="txtDate"><span class="input-group-addon" style=""><i class="glyphicon glyphicon-th"></i></span></div><hr />
-    <table class="form-group" id="tblAddTasks">
-        <tr><th>Task Description</th><th>Time</th><th>Feedback By Manager</th><th>Rating</th><th>Actions</th></tr>
-        <tr><td style="width:35%;">@Html.TextBox("txtTaskDescription", "", new { @class = "form-control" })</td><td style="width:8%">@Html.TextBox("txtTime", "", new { @class = "form-control" })</td><td style="width:35%">@Html.TextBox("txtFeedback", "",new { @class = "form-control" })</td>
-       <td style="width:12%"><div id="dvRating" class="cssRating"></div></td>
-         <td width="width:10%;">
-            <a href="javascript:void(0)" onclick="fn_AddNewRowWithClone(this)" class="lnkActions"><i class="glyphicon glyphicon-plus"></i></a>
-@*<a href="javascript:void(0)" class="lnkActions" ><i class="glyphicon glyphicon-trash"></i></a>*@</td></tr>
-    </table>
-
-</div>

@@ -14,7 +14,7 @@ function fn_AddNewRowWithClone(obj, strfnDeleteName) {
        
         $(this).val('');
         $(this).removeClass("clserror");
-        $(this).removeAttr('disabled');
+       // $(this).removeAttr('disabled');
       
         $(this).attr({
             'id': function (_, id) {
@@ -66,13 +66,15 @@ function fn_AddNewRowWithClone(obj, strfnDeleteName) {
 
     $(row).find(".cssRating").html('');
    
+    $(row).find(".cssRating").raty({readonly:true,score:0});
     $("#" + tbId + " >tbody").append(row);// now will append the clone row to table.
 
-    if ($(this).hasClass("cssRating")) {
-    //    $("#" + newRatingId).empty();
-        alert(newRatingId)
-        $("#" + newRatingId).raty({ readOnly: true, score: 0 });
-    }
+    //if ($(this).hasClass("cssRating")) {
+    ////    $("#" + newRatingId).empty();
+    //    //alert(newRatingId)
+   // $(".cssRating").raty({ readOnly: false, score: 0 });
+    
+    //}
 
     i++; //increment the counter variable.
 
@@ -83,7 +85,7 @@ function fn_AddNewRowWithClone(obj, strfnDeleteName) {
 //and add the + icon to the Last row in table 
 function fn_DeleteRow(varobj) {
     var tbId = $(varobj).closest('table').attr('id');
-    debugger
+   
     var rowCount = $("#" + tbId + ">> tr").length;
     if (rowCount > 2) {
         $(varobj).closest('tr').remove();
@@ -97,5 +99,80 @@ function fn_DeleteRow(varobj) {
     else {
         alert('Please maintain atleast one row in grid.');
     }
+
+}
+
+function fn_GetGridData(tbodyId) {
+    var flagCheck = true;
+    var DataLists = Array();
+    $("#" + tbodyId).find("tr").each(function () {
+        var newElement = ""; //Hold key value combintion
+        debugger
+        $(this).find("td").each(function () {
+            var varKey = "";    // Key variable
+            var varValue = "";  // Value variable
+
+            // this loop find the each input(textbox,checkbox,radiobutton,hiddenfield etc) in td
+            $(this).find(":input").each(function () {
+
+                //check this input hold FieldName or not
+                if ($(this).attr("FieldName") != null) {
+                    var type = this.type;
+                    varKey = $(this).attr("FieldName"); //get the key
+                    //  if ($(this).attr("autocomplete") != null) {
+                    if ($(this).attr("selectedid") != undefined) {
+                        //if($(this).hasAttr('selectedid')){
+                        varValue = $(this).attr("selectedid")
+                    }
+                    else if (type == 'checkbox') {
+                        varValue = $(this).is(":checked");
+
+                    }
+                    else {
+                        varValue = $(this).val(); //get value
+                    }
+
+                    if (newElement != "") {   //make combination
+                        newElement += "," + "\"" + varKey + "\" : " + "\"" + varValue + "\"";
+                    }
+                    else {
+                        newElement = "\"" + varKey + "\" : " + "\"" + varValue + "\"";
+                    }
+
+                    //now for check Mandatory selectedid
+                    if ($(this).attr("ismandatory") != null) {
+                        var Mflag = $(this).attr("ismandatory")
+                        if (Mflag == 1) {
+
+                            // for check autocomplete if($("#my_div[selectedid]").length)
+                            if ($(this).attr("autocomplete") != null) {
+                                if ($(this).attr("selectedid") == undefined || $(this).attr("selectedid") == "") {
+                                    $(this).addClass("clserror");
+                                    flagCheck = false;
+                                }
+                                else { $(this).removeClass("clserror"); }//flagCheck = true; }// added remove error css by Rajesh 03/09/2014
+                            }
+                            else if ($(this).val() == "") { // for both textbox and dropdown
+                                $(this).addClass("clserror");
+                                flagCheck = false;
+                            }
+                            else { $(this).removeClass("clserror"); }//flagCheck = true; }// for both textbox and dropdown
+
+                        }
+                    }
+                }
+            });// end of input loop 
+        }); // end of td loop
+        newElement = "{" + newElement + "}"
+        
+        //alert(newElement)
+
+        DataLists.push(JSON.parse(newElement));
+        //DataLists.push(newElement);
+    }); //end of tr loop
+    // alert(DataLists)
+    var retdata = { "Datareturn": DataLists, "FlagCheck": flagCheck };
+    return retdata;
+    //return DataLists;
 
 }

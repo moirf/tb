@@ -29,11 +29,7 @@ namespace TeamBook
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
-            bundles.Add(new StyleBundle("~/Content/FlatUI/css").Include(
-                     "~/Content/FlatUI/css/flat-ui.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/flatui").Include("~/content/flatui/js/flat-ui.js").Include("~/content/flatui/js/vendor/html5shiv.js")
-                .Include("~/content/flatui/js/vendor/video.js", "~/content/flatui/js/vendor/respond.min.js"));
+           
         }
     }
 }
